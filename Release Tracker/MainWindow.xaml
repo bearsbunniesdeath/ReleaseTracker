@@ -4,9 +4,21 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Release_Tracker"
+        xmlns:mainvm="clr-namespace:Release_Tracker.MainWindowViewModel"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
-    <Grid>
-        
-    </Grid>
+        Title="Release Tracker" Height="350" Width="525">
+    <Window.DataContext>
+        <local:MainWindowViewModel />
+    </Window.DataContext>
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Right" LastChildFill="False">
+            <StackPanel DockPanel.Dock="Top" MinWidth="100">
+                <Button Content="Add..."  Margin="2,2,2,2"></Button>
+                <Button Content="Edit..." Margin="2,2,2,2"></Button>
+                <Button Content="Delete" Margin="2,2,2,2"></Button>
+            </StackPanel>
+            <Button DockPanel.Dock="Bottom" Content="Close" Command="{Binding Path=CloseApp}"  MinWidth="100" Margin="2,2,2,2"/>
+        </DockPanel>
+        <DataGrid></DataGrid>
+    </DockPanel>
 </Window>

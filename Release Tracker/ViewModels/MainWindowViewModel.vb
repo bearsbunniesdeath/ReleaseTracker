@@ -3,6 +3,8 @@
 Public Class MainWindowViewModel
     Implements INotifyPropertyChanged
 
+    Private Const _appVersion As String = "Release Tracker v1.0"
+
     'Commands
     Private _closeApp As ICommand
 
@@ -21,6 +23,12 @@ Public Class MainWindowViewModel
         Set(value As ICommand)
             _closeApp = value
         End Set
+    End Property
+
+    Public ReadOnly Property AppVersion() As String
+        Get
+            AppVersion = _appVersion
+        End Get
     End Property
 
 End Class

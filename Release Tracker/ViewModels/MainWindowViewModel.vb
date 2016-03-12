@@ -1,20 +1,44 @@
 ﻿Imports System.ComponentModel
+Imports System.Data
+Imports System.Configuration
+Imports System.Collections.ObjectModel
 
 Public Class MainWindowViewModel
-    Implements INotifyPropertyChanged
+    Inherits ViewModelBase
 
-    Private Const _appVersion As String = "Release Tracker v1.0"
+#Region "Fields"
+    Private Shared _releaseColl As ObservableCollection(Of Release)
 
-    'Commands
+    Private _releaseDB As ReleaseDBAdapter
+#End Region
+
+#Region "Commands"
     Private _closeApp As ICommand
 
+    Private _addRelease As ICommand
+    Private _editRelease As ICommand
+#End Region
+
     Public Sub New()
+        Dim binFilePath As String
+        binFilePath = ConfigurationManager.AppSettings("ReleaseBinString").ToString()
+        _releaseDB = New ReleaseDBAdapter(binFilePath)
+        _releaseColl = _releaseDB.GetAllReleases()
+
         CloseApp = New RelayCommand(Sub()
                                         Application.Current.Shutdown()
                                     End Sub)
-    End Sub
+        AddRelease = New RelayCommand(Sub()
+                                          Dim release As Release = New Release()
+                                          Dim releaseViewModel As ReleaseWindowViewModel = New ReleaseWindowViewModel(release)
+                                          Dim releaseWindow As ReleaseWindow
+                                          releaseWindow = New ReleaseWindow(releaseViewModel)
 
-    Private Event INotifyPropertyChanged_PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
+                                          AddHandler releaseViewModel.AddNewRelease, AddressOf HandleAddNewRelease
+                                          releaseWindow.ShowDialog()
+                                      End Sub)
+
+    End Sub
 
     Public Property CloseApp() As ICommand
         Get
@@ -25,49 +49,34 @@ Public Class MainWindowViewModel
         End Set
     End Property
 
+    Public Property AddRelease As ICommand
+        Get
+            AddRelease = _addRelease
+        End Get
+        Set(value As ICommand)
+            _addRelease = value
+        End Set
+    End Property
+
     Public ReadOnly Property AppVersion() As String
         Get
-            AppVersion = _appVersion
+            AppVersion = gAppVersion
         End Get
     End Property
 
-End Class
+    Public Property ReleaseColl() As ObservableCollection(Of Release)
+        Get
+            ReleaseColl = _releaseColl
+        End Get
+        Set(value As ObservableCollection(Of Release))
+            _releaseColl = value
+        End Set
+    End Property
 
-Public Class RelayCommand
-    Implements ICommand
+    Private Sub HandleAddNewRelease(sender As Object, release As Release)
+        'TODO: Add some checking here or ReleaseWindowViewModel??
+        _releaseColl.Add(release)
+        _releaseDB.SaveAllReleases(_releaseColl)
+    End Sub
 
-    Public Custom Event CanExecuteChanged As EventHandler Implements ICommand.CanExecuteChanged
-        AddHandler(value As EventHandler)
-            If IsNothing(Me._canExecuteEvaluator) = False Then
-                AddHandler CommandManager.RequerySuggested, value
-            End If
-        End AddHandler
-        RemoveHandler(value As EventHandler)
-            If IsNothing(Me._canExecuteEvaluator) = False Then
-                AddHandler CommandManager.RequerySuggested, value
-            End If
-        End RemoveHandler
-        RaiseEvent(sender As Object, e As EventArgs)
-        End RaiseEvent
-    End Event
-    Private _methodToExecute As Action
-    Private _canExecuteEvaluator As Func(Of Boolean)
-    Public Sub New(ByRef methodToExecute As Action, ByRef canExecuteEvaluator As Func(Of Boolean))
-        Me._methodToExecute = methodToExecute
-        Me._canExecuteEvaluator = canExecuteEvaluator
-    End Sub
-    Public Sub New(ByRef methodToExecute As Action)
-        Me.New(methodToExecute, Nothing)
-    End Sub
-    Public Function CanExecute(parameter As Object) As Boolean Implements ICommand.CanExecute
-        If IsNothing(Me._canExecuteEvaluator) Then
-            Return True
-        Else
-            Dim result As Boolean = Me._canExecuteEvaluator.Invoke()
-            Return result
-        End If
-    End Function
-    Public Sub Execute(parameter As Object) Implements ICommand.Execute
-        Me._methodToExecute.Invoke()
-    End Sub
 End Class

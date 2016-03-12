@@ -5,19 +5,19 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Release_Tracker"
         mc:Ignorable="d"
-        Title="{Binding Path=AppVersion}" Height="350" Width="525">
+        Title="{Binding Path=AppVersion}" Height="400" Width="600">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
             <StackPanel DockPanel.Dock="Top" MinWidth="100">
-                <Button Content="Add..."  Margin="2,2,2,2"></Button>
+                <Button Content="Add..."  Margin="2,2,2,2" Command="{Binding Path=AddRelease}"></Button>
                 <Button Content="Edit..." Margin="2,2,2,2"></Button>
                 <Button Content="Delete" Margin="2,2,2,2"></Button>
             </StackPanel>
             <Button DockPanel.Dock="Bottom" Content="Close" Command="{Binding Path=CloseApp}"  MinWidth="100" Margin="2,2,2,2"/>
         </DockPanel>
-        <DataGrid></DataGrid>
+        <DataGrid ItemsSource="{Binding ReleaseColl}" SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay}" IsReadOnly="True"></DataGrid>
     </DockPanel>
 </Window>

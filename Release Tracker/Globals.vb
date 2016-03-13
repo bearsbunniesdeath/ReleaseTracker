@@ -9,6 +9,11 @@
         TV
     End Enum
 
+    Public Enum gReleaseWinMode
+        Add
+        Edit
+    End Enum
+
     Public Class RelayCommand
         Implements ICommand
 

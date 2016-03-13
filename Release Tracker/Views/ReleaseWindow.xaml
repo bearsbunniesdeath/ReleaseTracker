@@ -8,7 +8,7 @@
         Title="Window1" Height="300" Width="300" WindowStartupLocation="CenterScreen">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" IsDefault="True" Command="{Binding Add}" Margin="1" MinWidth="75" MaxHeight="25"/>
+            <Button Content="OK" IsDefault="True" Command="{Binding Commit}" Margin="1" MinWidth="75" MaxHeight="25"/>
             <Button Content="Close" IsCancel="True" Command="{Binding Cancel}" Margin="1" MinWidth="50" MaxHeight="25"/>
         </StackPanel>
         <Grid>
@@ -26,7 +26,7 @@
             <Label Content="Name" Grid.Row="0" Grid.Column="0"/>
             <TextBox Name="txtName" Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
             <Label Content="Type" Grid.Row="1" Grid.Column="0"/>
-            <ComboBox Name="cmbType" Grid.Row="1" Grid.Column="1" MaxHeight="25" MinWidth="200" />
+            <ComboBox Name="cmbType" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Grid.Row="1" Grid.Column="1" MaxHeight="25" MinWidth="200" />
             <Label Content="Date" Grid.Row="2" Grid.Column="0"/>
             <DatePicker Name="dateRelease" Grid.Row="2" Grid.Column="1"/>
         </Grid>

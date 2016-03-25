@@ -55,6 +55,16 @@
         End Set
     End Property
 
+    Public Property ReleaseDate As Date
+        Get
+            ReleaseDate = _releaseObj.ReleaseDate
+        End Get
+        Set(value As Date)
+            _releaseObj.ReleaseDate = value
+            NotifyPropertyChanged("ReleaseDate")
+        End Set
+    End Property
+
     Public ReadOnly Property Types As Array
         Get
             Return [Enum].GetValues(GetType(gReleaseType))

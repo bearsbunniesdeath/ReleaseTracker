@@ -51,7 +51,9 @@ Public Class MainWindowViewModel
                                 End Sub)
 
         Delete = New RelayCommand(Sub()
-                                      'DeleteRelease(_selectedRow)
+                                      If Not _selectedRow Is Nothing Then
+                                          DeleteRelease(_selectedRow)
+                                      End If
                                   End Sub)
 
 
@@ -145,6 +147,11 @@ Public Class MainWindowViewModel
 
     Private Sub OnEditRelease(sender As Object, e As ReleaseEventArgs)
         EditRelease(e.Release)
+    End Sub
+
+    Public Sub DeleteRelease(release As Release)
+        _releaseColl.Remove(release)
+        _releaseDB.SaveAllReleases(_releaseColl)
     End Sub
 
 #End Region

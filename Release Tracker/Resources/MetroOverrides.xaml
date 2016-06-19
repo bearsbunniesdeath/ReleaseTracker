@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Release_Tracker"
+    xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF">
+    <Style TargetType="{x:Type Button}" 
+           BasedOn="{StaticResource SquareButtonStyle}">
+        <Setter Property="metro:ButtonHelper.PreserveTextCase" Value="True"/>
+    </Style>
+</ResourceDictionary>

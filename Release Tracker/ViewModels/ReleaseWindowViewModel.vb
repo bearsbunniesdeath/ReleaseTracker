@@ -41,7 +41,7 @@
         End Get
         Set(value As String)
             _releaseObj.Name = value
-            NotifyPropertyChanged("Name")
+            RaisePropertyChanged(NameOf(Name))
         End Set
     End Property
 
@@ -51,7 +51,7 @@
         End Get
         Set(value As gReleaseType)
             _releaseObj.Type = value
-            NotifyPropertyChanged("SelectedType")
+            RaisePropertyChanged(NameOf(SelectedType))
         End Set
     End Property
 
@@ -61,7 +61,7 @@
         End Get
         Set(value As Date)
             _releaseObj.ReleaseDate = value
-            NotifyPropertyChanged("ReleaseDate")
+            RaisePropertyChanged(NameOf(ReleaseDate))
         End Set
     End Property
 
@@ -108,6 +108,12 @@
         Set(value As ICommand)
             _cancel = value
         End Set
+    End Property
+
+    Public ReadOnly Property WinMode As gReleaseWinMode
+        Get
+            WinMode = _mode
+        End Get
     End Property
 #End Region
 

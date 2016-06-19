@@ -99,6 +99,4 @@ Public Class Release
     End Property
 
 #End Region
-
-
 End Class

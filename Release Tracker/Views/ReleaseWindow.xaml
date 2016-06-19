@@ -3,13 +3,15 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:Release_Tracker"
+        xmlns:local="clr-namespace:Release_Tracker"        
+        xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
+        xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="Window1" Height="300" Width="300" WindowStartupLocation="CenterScreen">
+        Title="{Binding WinMode}" Height="300" Width="300" WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <Button Content="OK" IsDefault="True" Command="{Binding Commit}" Margin="1" MinWidth="75" MaxHeight="25"/>
-            <Button Content="Close" IsCancel="True" Command="{Binding Cancel}" Margin="1" MinWidth="50" MaxHeight="25"/>
+            <local:IconicButton Icon="ThumbsUp" Caption="OK" IsDefault="True" Command="{Binding Commit}"  Margin="1" MinWidth="75" MaxHeight="25"/>
+            <local:IconicButton Icon="Close" Caption="Cancel" IsCancel="True" Command="{Binding Cancel}" Margin="1" MinWidth="75" MaxHeight="25"/>
         </StackPanel>
         <Grid>
             <Grid.RowDefinitions>

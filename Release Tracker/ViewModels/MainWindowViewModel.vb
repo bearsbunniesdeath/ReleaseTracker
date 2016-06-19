@@ -8,6 +8,11 @@ Public Class MainWindowViewModel
 #Region "Fields"
     Private Shared _releaseColl As ObservableCollection(Of Release)
 
+    Private _gamesOnlyView As ICollectionView
+    Private _moviesOnlyView As ICollectionView
+    Private _musicOnlyView As ICollectionView
+    Private _tvOnlyView As ICollectionView
+
     Private _releaseDB As ReleaseDBAdapter
 
     Private _selectedRow As Release
@@ -19,6 +24,8 @@ Public Class MainWindowViewModel
     Private _add As ICommand
     Private _edit As ICommand
     Private _delete As ICommand
+
+    Private _filterGames As ICommand
 #End Region
 
     Public Sub New()
@@ -56,7 +63,8 @@ Public Class MainWindowViewModel
                                       End If
                                   End Sub)
 
-
+        _gamesOnlyView = New CollectionView(_releaseColl)
+        _gamesOnlyView.Filter = AddressOf GamesFilter
     End Sub
 
 #Region "Properties"
@@ -94,6 +102,15 @@ Public Class MainWindowViewModel
         End Get
         Set(value As ICommand)
             _delete = value
+        End Set
+    End Property
+
+    Public Property GamesOnlyView As CollectionView
+        Get
+            GamesOnlyView = _gamesOnlyView
+        End Get
+        Set(value As CollectionView)
+            _gamesOnlyView = value
         End Set
     End Property
 
@@ -153,6 +170,15 @@ Public Class MainWindowViewModel
         _releaseColl.Remove(release)
         _releaseDB.SaveAllReleases(_releaseColl)
     End Sub
+
+    Private Function GamesFilter(item As Object) As Boolean
+        Dim release = TryCast(item, Release)
+        If Not IsNothing(release) Then
+            Return If(release.Type = gReleaseType.Games, True, False)
+        End If
+        Throw New InvalidCastException("Cannot filter a non-release item")
+    End Function
+
 
 #End Region
 

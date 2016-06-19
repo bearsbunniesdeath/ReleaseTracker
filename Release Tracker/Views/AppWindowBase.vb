@@ -1,5 +1,6 @@
-﻿
-Public Class AppWindowBase : Inherits Window
+﻿Imports MahApps.Metro.Controls
+
+Public MustInherit Class AppWindowBase : Inherits MetroWindow
     Public Sub New()
         AddHandler Me.DataContextChanged, AddressOf Me.OnDataContextChanged
     End Sub

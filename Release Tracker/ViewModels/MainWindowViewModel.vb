@@ -1,6 +1,7 @@
 ﻿Imports System.ComponentModel
 Imports System.Configuration
 Imports System.Collections.ObjectModel
+Imports GalaSoft.MvvmLight.CommandWpf
 
 Public Class MainWindowViewModel
     Inherits ViewModelBase
@@ -8,14 +9,13 @@ Public Class MainWindowViewModel
 #Region "Fields"
     Private Shared _releaseColl As ObservableCollection(Of Release)
 
-    Private _gamesOnlyView As ICollectionView
-    Private _moviesOnlyView As ICollectionView
-    Private _musicOnlyView As ICollectionView
-    Private _tvOnlyView As ICollectionView
+    Private _releaseView As ICollectionView
 
     Private _releaseDB As ReleaseDBAdapter
 
     Private _selectedRow As Release
+
+    Private _selectedFilterType As gReleaseFilter
 #End Region
 
 #Region "Commands"
@@ -25,7 +25,7 @@ Public Class MainWindowViewModel
     Private _edit As ICommand
     Private _delete As ICommand
 
-    Private _filterGames As ICommand
+    Private _refreshView As ICommand
 #End Region
 
     Public Sub New()
@@ -33,6 +33,12 @@ Public Class MainWindowViewModel
         binFilePath = ConfigurationManager.AppSettings("ReleaseBinString").ToString()
         _releaseDB = New ReleaseDBAdapter(binFilePath)
         _releaseColl = _releaseDB.GetAllReleases()
+        _selectedFilterType = gReleaseFilter.All Or gReleaseFilter.Games _
+                              Or gReleaseFilter.Movies Or gReleaseFilter.Music _
+                              Or gReleaseFilter.TV
+
+        _releaseView = New ListCollectionView(_releaseColl)
+        _releaseView.Filter = AddressOf ReleaseFilter
 
         CloseApp = New RelayCommand(Sub()
                                         Application.Current.Shutdown()
@@ -63,8 +69,11 @@ Public Class MainWindowViewModel
                                       End If
                                   End Sub)
 
-        _gamesOnlyView = New CollectionView(_releaseColl)
-        _gamesOnlyView.Filter = AddressOf GamesFilter
+        RefreshView = New RelayCommand(Sub()
+                                           If Not _releaseView Is Nothing Then
+                                               _releaseView.Refresh()
+                                           End If
+                                       End Sub)
     End Sub
 
 #Region "Properties"
@@ -105,12 +114,13 @@ Public Class MainWindowViewModel
         End Set
     End Property
 
-    Public Property GamesOnlyView As CollectionView
+    Public Property ReleaseView As ICollectionView
         Get
-            GamesOnlyView = _gamesOnlyView
+            ReleaseView = _releaseView
         End Get
-        Set(value As CollectionView)
-            _gamesOnlyView = value
+        Set(value As ICollectionView)
+            _releaseView = value
+            RaisePropertyChanged(NameOf(ReleaseView))
         End Set
     End Property
 
@@ -135,6 +145,26 @@ Public Class MainWindowViewModel
         End Get
         Set(value As Release)
             _selectedRow = value
+        End Set
+    End Property
+
+    Public Property SelectedFilterType As gReleaseFilter
+        Get
+            SelectedFilterType = _selectedFilterType
+        End Get
+        Set(value As gReleaseFilter)
+            _selectedFilterType = value
+            RaisePropertyChanged(NameOf(SelectedFilterType))
+        End Set
+    End Property
+
+    Public Property RefreshView As ICommand
+        Get
+            RefreshView = _refreshView
+        End Get
+        Set(value As ICommand)
+            _refreshView = value
+            RaisePropertyChanged(NameOf(RefreshView))
         End Set
     End Property
 
@@ -171,12 +201,30 @@ Public Class MainWindowViewModel
         _releaseDB.SaveAllReleases(_releaseColl)
     End Sub
 
-    Private Function GamesFilter(item As Object) As Boolean
-        Dim release = TryCast(item, Release)
-        If Not IsNothing(release) Then
-            Return If(release.Type = gReleaseType.Games, True, False)
-        End If
-        Throw New InvalidCastException("Cannot filter a non-release item")
+    Private Function ReleaseFilter(release As Release) As Boolean
+        Dim releaseType = release.Type
+        Dim isAccepted = False
+
+        For Each filterType In [Enum].GetValues(GetType(gReleaseFilter))
+            If filterType And SelectedFilterType Then
+                If filterType = gReleaseFilter.All Then
+                    isAccepted = True
+                ElseIf filterType = gReleaseFilter.Games Then
+                    isAccepted = If(releaseType = gReleaseType.Games, True, False)
+                ElseIf filterType = gReleaseFilter.Movies Then
+                    isAccepted = If(releaseType = gReleaseType.Movies, True, False)
+                ElseIf filterType = gReleaseFilter.Music Then
+                    isAccepted = If(releaseType = gReleaseType.Music, True, False)
+                ElseIf filterType = gReleaseFilter.TV Then
+                    isAccepted = If(releaseType = gReleaseType.TV, True, False)
+                End If
+
+                If isAccepted = True Then
+                    Exit For
+                End If
+            End If
+        Next
+        Return isAccepted
     End Function
 
 

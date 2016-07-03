@@ -28,7 +28,17 @@
             <Label Content="Name" Grid.Row="0" Grid.Column="0"/>
             <TextBox Name="txtName" Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
             <Label Content="Type" Grid.Row="1" Grid.Column="0"/>
-            <ComboBox Name="cmbType" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Grid.Row="1" Grid.Column="1" MaxHeight="25" MinWidth="200" />
+            <ComboBox Name="cmbType" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Grid.Row="1" Grid.Column="1" MaxHeight="25" MinWidth="200">
+                <ComboBox.Style>
+                    <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding WinMode}" Value="{x:Static local:Globals+gReleaseWinMode.Edit}">
+                                <Setter Property="IsEnabled" Value="False"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+            </ComboBox>
             <Label Content="Date" Grid.Row="2" Grid.Column="0"/>
             <DatePicker Name="dateRelease" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding Path=ReleaseDate}"/>
         </Grid>

@@ -6,23 +6,13 @@
         xmlns:local="clr-namespace:Release_Tracker"       
         xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:cmd="http://www.galasoft.ch/mvvmlight"
         mc:Ignorable="d"
         Title="{Binding Path=AppVersion}" Height="400" Width="600" EnableDWMDropShadow="True">
     <Window.DataContext>
         <local:MainWindowViewModel />
     </Window.DataContext>
-    <Window.Resources>
-        <CollectionViewSource Source="{Binding ReleaseColl}" x:Key="AllItems">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="ReleaseDate" Direction="Ascending"/>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-        <CollectionViewSource Source="{Binding ReleaseColl}" x:Key="GamesOnly">
-            <CollectionViewSource.SortDescriptions>
-                <scm:SortDescription PropertyName="ReleaseDate" Direction="Ascending"/>
-            </CollectionViewSource.SortDescriptions>
-        </CollectionViewSource>
-    </Window.Resources>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
             <StackPanel DockPanel.Dock="Top" MinWidth="100">
@@ -30,9 +20,48 @@
                 <local:IconicButton Icon="Pencil" Caption="Edit..." Margin="2,2,2,2" Command="{Binding Path=Edit}"/>
                 <local:IconicButton Icon="Trash" Caption="Delete" Margin="2,2,2,2" Command="{Binding Path=Delete}"/>
             </StackPanel>
+            <GroupBox DockPanel.Dock="Top" Header="Filter">
+                <StackPanel>
+                    <StackPanel.Resources>
+                        <local:EnumFlagsToBooleanConverter x:Key="EnumFlagsToBooleanConverter"/>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource {x:Type CheckBox}}" x:Key="FilterCheckBox">
+                            <Style.Setters>
+                                <Setter Property="Command" Value="{Binding RefreshView}"/>
+                            </Style.Setters>
+                        </Style>
+                        <Style TargetType="CheckBox" BasedOn="{StaticResource FilterCheckBox}" x:Key="ExclusiveFilterCheckBox">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ElementName=_allCheckBox, Path=IsChecked}" Value="True">
+                                    <Setter Property="IsEnabled" Value="False"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Resources>
+                    <CheckBox Name="_allCheckBox" IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.All}}"
+                              Style="{StaticResource FilterCheckBox}">
+                        All                       
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.Games}}"
+                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                        Games                       
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.Movies}}"
+                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                        Movies
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.Music}}"
+                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                        Music
+                    </CheckBox>
+                    <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.TV}}"
+                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                        TV
+                    </CheckBox>
+                </StackPanel>
+            </GroupBox>
             <local:IconicButton DockPanel.Dock="Bottom" Icon="Close" Caption="Close" Command="{Binding Path=CloseApp}"  MinWidth="100" Margin="2,2,2,2"/>
         </DockPanel>
-        <DataGrid ItemsSource="{Binding ReleaseColl}" SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay}" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
+        <DataGrid ItemsSource="{Binding ReleaseView}" SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay}" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
             <DataGrid.RowStyle>
                 <Style TargetType="DataGridRow">
                     <Style.Triggers>
@@ -45,6 +74,9 @@
                         <DataTrigger Binding="{Binding State}" Value="Green">
                             <Setter Property="Background" Value="LightGreen"></Setter>
                         </DataTrigger>
+                        <Trigger Property="IsSelected" Value="True">
+                            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"/>
+                        </Trigger>
                     </Style.Triggers>
                 </Style>
             </DataGrid.RowStyle>

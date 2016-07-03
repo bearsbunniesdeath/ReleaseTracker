@@ -1,4 +1,6 @@
-﻿Public Class ReleaseWindowViewModel
+﻿Imports GalaSoft.MvvmLight.CommandWpf
+
+Public Class ReleaseWindowViewModel
     Inherits ViewModelBase
 
 #Region "Fields"

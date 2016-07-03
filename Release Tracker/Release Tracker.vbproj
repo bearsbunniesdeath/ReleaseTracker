@@ -116,6 +116,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Controls\IconicButton.vb" />
+    <Compile Include="Converters\EnumFlagsToBooleanConverter.vb" />
     <Compile Include="ReleaseEventArgs.vb" />
     <Compile Include="ViewModels\ReleaseWindowViewModel.vb" />
     <Compile Include="ViewModels\ViewModelBase.vb" />

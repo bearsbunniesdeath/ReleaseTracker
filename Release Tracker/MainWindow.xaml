@@ -38,23 +38,23 @@
                         </Style>
                     </StackPanel.Resources>
                     <CheckBox Name="_allCheckBox" IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.All}}"
-                              Style="{StaticResource FilterCheckBox}">
+                              Style="{StaticResource FilterCheckBox}" Margin="5,5,5,10">
                         All                       
                     </CheckBox>
                     <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.Games}}"
-                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                              Style="{StaticResource ExclusiveFilterCheckBox}" Margin="5,0,5,5">
                         Games                       
                     </CheckBox>
                     <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.Movies}}"
-                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                              Style="{StaticResource ExclusiveFilterCheckBox}" Margin="5,0,5,5">
                         Movies
                     </CheckBox>
                     <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.Music}}"
-                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                              Style="{StaticResource ExclusiveFilterCheckBox}" Margin="5,0,5,5">
                         Music
                     </CheckBox>
                     <CheckBox IsChecked="{Binding Path=SelectedFilterType, Converter={StaticResource EnumFlagsToBooleanConverter}, ConverterParameter={x:Static local:Globals+gReleaseFilter.TV}}"
-                              Style="{StaticResource ExclusiveFilterCheckBox}">
+                              Style="{StaticResource ExclusiveFilterCheckBox}" Margin="5,0,5,5">
                         TV
                     </CheckBox>
                 </StackPanel>

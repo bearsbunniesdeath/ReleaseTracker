@@ -1,6 +1,6 @@
 ﻿Public Module Globals
 
-    Public Const gAppVersion As String = "Release Tracker v1.0"
+    Public gAppVersion As String = $"Release Tracker v {Reflection.Assembly.GetExecutingAssembly.GetName().Version.ToString()}"
 
     Public Enum gReleaseType
         Games

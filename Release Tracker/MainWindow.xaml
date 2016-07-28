@@ -15,10 +15,10 @@
     </Window.DataContext>
     <DockPanel>
         <DockPanel DockPanel.Dock="Right" LastChildFill="False">
-            <StackPanel DockPanel.Dock="Top" MinWidth="100">
-                <local:IconicButton Icon="Plus" Caption="Add..." Margin="2,2,2,2" Command="{Binding Path=Add}"/>
-                <local:IconicButton Icon="Pencil" Caption="Edit..." Margin="2,2,2,2" Command="{Binding Path=Edit}"/>
-                <local:IconicButton Icon="Trash" Caption="Delete" Margin="2,2,2,2" Command="{Binding Path=Delete}"/>
+            <StackPanel DockPanel.Dock="Top" MinWidth="100" Margin="5">
+                <local:IconicButton Icon="Plus" Caption="Add..." Margin="0,0,0,5" Command="{Binding Path=Add}"/>
+                <local:IconicButton Icon="Pencil" Caption="Edit..." Margin="0,0,0,5" Command="{Binding Path=Edit}"/>
+                <local:IconicButton Icon="Trash" Caption="Delete" Command="{Binding Path=Delete}"/>
             </StackPanel>
             <GroupBox DockPanel.Dock="Top" Header="Filter">
                 <StackPanel>
@@ -59,7 +59,7 @@
                     </CheckBox>
                 </StackPanel>
             </GroupBox>
-            <local:IconicButton DockPanel.Dock="Bottom" Icon="Close" Caption="Close" Command="{Binding Path=CloseApp}"  MinWidth="100" Margin="2,2,2,2"/>
+            <local:IconicButton DockPanel.Dock="Bottom" Icon="Close" Caption="Close" Command="{Binding Path=CloseApp}"  MinWidth="100" Margin="5"/>
         </DockPanel>
         <DataGrid ItemsSource="{Binding ReleaseView}" SelectedItem="{Binding Path=SelectedRow, Mode=TwoWay}" IsReadOnly="True" SelectionMode="Single" AutoGenerateColumns="False">
             <DataGrid.RowStyle>

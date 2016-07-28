@@ -7,13 +7,13 @@
         xmlns:fa="clr-namespace:FontAwesome.WPF;assembly=FontAwesome.WPF"
         xmlns:metro="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
         mc:Ignorable="d"
-        Title="{Binding WinMode}" Height="300" Width="300" WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True">
+        Title="{Binding WinMode}" Height="180" Width="300" WindowStartupLocation="CenterScreen" EnableDWMDropShadow="True">
     <DockPanel>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right">
-            <local:IconicButton Icon="ThumbsUp" Caption="OK" IsDefault="True" Command="{Binding Commit}"  Margin="1" MinWidth="75" MaxHeight="25"/>
-            <local:IconicButton Icon="Close" Caption="Cancel" IsCancel="True" Command="{Binding Cancel}" Margin="1" MinWidth="75" MaxHeight="25"/>
+            <local:IconicButton Icon="ThumbsUp" Caption="OK" IsDefault="True" Command="{Binding Commit}"  Margin="5" MinWidth="75" MaxHeight="25"/>
+            <local:IconicButton Icon="Close" Caption="Cancel" IsCancel="True" Command="{Binding Cancel}" Margin="0,5,5,5" MinWidth="75" MaxHeight="25"/>
         </StackPanel>
-        <Grid>
+        <Grid Margin="5,5,5,0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
@@ -25,10 +25,10 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
-            <Label Content="Name" Grid.Row="0" Grid.Column="0"/>
-            <TextBox Name="txtName" Grid.Row="0" Grid.Column="1" Text="{Binding Name}"/>
-            <Label Content="Type" Grid.Row="1" Grid.Column="0"/>
-            <ComboBox Name="cmbType" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Grid.Row="1" Grid.Column="1" MaxHeight="25" MinWidth="200">
+            <Label Content="Name" Grid.Row="0" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
+            <TextBox Name="txtName" Grid.Row="0" Grid.Column="1" Text="{Binding Name}" Margin="5"/>
+            <Label Content="Type" Grid.Row="1" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
+            <ComboBox Name="cmbType" ItemsSource="{Binding Types}" SelectedItem="{Binding SelectedType}" Grid.Row="1" Grid.Column="1" Margin="5" MinWidth="200">
                 <ComboBox.Style>
                     <Style TargetType="ComboBox" BasedOn="{StaticResource {x:Type ComboBox}}">
                         <Style.Triggers>
@@ -39,8 +39,8 @@
                     </Style>
                 </ComboBox.Style>
             </ComboBox>
-            <Label Content="Date" Grid.Row="2" Grid.Column="0"/>
-            <DatePicker Name="dateRelease" Grid.Row="2" Grid.Column="1" SelectedDate="{Binding Path=ReleaseDate}"/>
+            <Label Content="Date" Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" FontWeight="Bold"/>
+            <DatePicker Name="dateRelease" Grid.Row="2" Grid.Column="1" Margin="5" SelectedDate="{Binding Path=ReleaseDate}"/>
         </Grid>
     </DockPanel>
 </local:AppWindowBase>

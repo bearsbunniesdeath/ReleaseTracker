@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+	<Product Id="*" Name="Release_Tracker_Deployment" Language="1033" Version="1.0.0.0" Manufacturer="Kevin Ma" UpgradeCode="99d184f1-878f-4833-b037-33f0736dee05">
+		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
+
+		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+		<MediaTemplate />
+
+		<Feature Id="ProductFeature" Title="Release_Tracker_Deployment" Level="1">
+			<ComponentGroupRef Id="ProductComponents" />
+		</Feature>
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER"/>
+    <UIRef Id="WixUI_InstallDir"/>
+    
+	</Product>
+
+	<Fragment>
+		<Directory Id="TARGETDIR" Name="SourceDir">
+			<Directory Id="ProgramFilesFolder">
+				<Directory Id="INSTALLFOLDER" Name="Release_Tracker_Deployment" />
+			</Directory>
+		</Directory>
+	</Fragment>
+
+	<Fragment>
+		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
+			<Component Id="MainExecutable">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\Release Tracker.exe" Checksum="yes"/>
+			</Component>
+      <Component Id="FontAwesome.WPF.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\FontAwesome.WPF.dll" />
+      </Component>
+      <Component Id="GalaSoft.MvvmLight.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\GalaSoft.MvvmLight.dll" />
+      </Component>
+      <Component Id="GalaSoft.MvvmLight.Extras.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\GalaSoft.MvvmLight.Extras.dll" />
+      </Component>     
+      <Component Id="GalaSoft.MvvmLight.Platform.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\GalaSoft.MvvmLight.Platform.dll" />
+      </Component>      
+      <Component Id="MahApps.Metro.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\MahApps.Metro.dll" />
+      </Component>        
+      <Component Id="Microsoft.Practices.ServiceLocation.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\Microsoft.Practices.ServiceLocation.dll" />
+      </Component>     
+      <Component Id="Release_Tracker.exe.config">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\Release Tracker.exe.config" />
+      </Component>     
+      <Component Id="System.Windows.Interactivity.dll">
+        <File Source="$(var.Release Tracker.ProjectDir)\bin\Release\System.Windows.Interactivity.dll" />
+      </Component>      
+		</ComponentGroup>      
+	</Fragment>  
+</Wix>
